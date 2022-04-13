@@ -3,21 +3,24 @@ from selenium import webdriver
 from time import sleep
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
-import Xutilities
+import Xutilities #importing a predefined module which has been created for openpyxl
 import pytest_html
 
 class TestDemo():
 
     @pytest.fixture()
+    #setup(which runs befor the function execution)
     def setup(self):
         self.driver = webdriver.Chrome()
         self.driver.get('https://opensource-demo.orangehrmlive.com/')
         self.driver.maximize_window()
         sleep(2)
+        #teardown (which runs after execution of a function)
         yield
         sleep(5)
         self.driver.close()
-        
+
+    #function for getting assert the page title
     def test_url_title(self, setup):
         print("Website URL:", self.driver.current_url)
         print("Website Title:", self.driver.title)
@@ -25,7 +28,8 @@ class TestDemo():
             assert self.driver.title == "OrangeHrm"
         except(AssertionError):
             assert self.driver.title == "OrangeHRM"
-    
+
+    #test case for login page through openpyxl module
     def test_case_login_page(self, setup):
         file_path = 'D:\Python\Execersice file\open pyxl excersice.xlsx'
         rows = Xutilities.get_row_count(file_path, "Sheet1")
